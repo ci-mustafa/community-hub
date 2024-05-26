@@ -1,0 +1,6 @@
+# Byte-compiled
+*.py[cod]
+__pycache__/
+
+# Environment
+venv/
