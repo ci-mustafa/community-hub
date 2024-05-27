@@ -162,4 +162,15 @@ class GroupParticipant(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="group_participant")
 
 
+###########################
+# Event Participant Model #
+###########################
+class EventParticipant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_participant")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_participant")
+
+    class Meta:
+        # Define composite primary key
+        unique_together = ('user', 'event')
+
 
