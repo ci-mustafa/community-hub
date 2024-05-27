@@ -103,6 +103,8 @@ class Family(models.Model):
     last_name = models.CharField(max_length=255, null=False, blank=False)
     father_name = models.CharField(max_length=255, null=False, blank=False)
     family_relationship = models.CharField(max_length=20, choices=RELATIONSHIP_CHOICES, default=DEFAULT_FAMILY_RELATIONSHIP_CHOICE)
+
+    # One-to-many relationship with User
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="family")
 
 ###############
@@ -114,6 +116,30 @@ class Group(models.Model):
 
     # string representation
     def __str__(self) -> str:
+        return self.title
+
+###############
+# Event Model #
+###############
+class Event(models.Model):
+    # Define type choices
+    PRIVATE = 'Private'
+    PUBLIC = 'Public'
+
+    EVENT_TYPE_CHOICES = [
+        (PRIVATE, 'Private'),
+        (PUBLIC, 'Public'),
+    ]
+    title = models.CharField(max_length=255, null=False, blank=False)
+    description = models.TextField(null=False, blank=False)
+    image = models.ImageField(upload_to="images/evnet", null=True, blank=True, validators=[validators.validate_file_size])
+    event_type = models.CharField(max_length=7, choices=EVENT_TYPE_CHOICES, default=PUBLIC)
+
+    # One-to-one relationship with Group
+    group = models.OneToOneField(Group, on_delete=models.SET_NULL, null=True, blank=True, related_name="event")
+
+    # string representation
+    def __str__(self):
         return self.title
 
 
