@@ -66,4 +66,44 @@ class User(AbstractUser):
     address = models.CharField(max_length=255, null=True, blank=True)
     phone_number = PhoneNumberField(region='NZ', blank=True, null=True, help_text='Enter phone number in New Zealand format.')
 
+################
+# Family Model #
+################
+class Family(models.Model):
+    # Define family relationship choices
+    DEFAULT_FAMILY_RELATIONSHIP_CHOICE = "Father"
+    RELATIONSHIP_CHOICES = [
+    (DEFAULT_FAMILY_RELATIONSHIP_CHOICE, 'Father'),
+    ('Mother', 'Mother'),
+    ('Son', 'Son'),
+    ('Daughter', 'Daughter'),
+    ('Brother', 'Brother'),
+    ('Sister', 'Sister'),
+    ('Cousin', 'Cousin'),
+    ('Brother-in-law', 'Brother-in-law'),
+    ('Sister-in-law', 'Sister-in-law'),
+    ('Paternal Grandfather', 'Paternal Grandfather'),
+    ('Paternal Grandmother', 'Paternal Grandmother'),
+    ('Maternal Grandfather', 'Maternal Grandfather'),
+    ('Maternal Grandmother', 'Maternal Grandmother'),
+    ('Paternal Uncle', 'Paternal Uncle'),
+    ('Maternal Uncle', 'Maternal Uncle'),
+    ('Paternal Aunt', 'Paternal Aunt'),
+    ('Maternal Aunt', 'Maternal Aunt'),
+    ('Nephew', 'Nephew'),
+    ('Niece', 'Niece'),
+    ('Grandson', 'Grandson'),
+    ('Granddaughter', 'Granddaughter'),
+    ('Father-in-law', 'Father-in-law'),
+    ('Mother-in-law', 'Mother-in-law'),
+    ('Son-in-law', 'Son-in-law'),
+    ('Daughter-in-law', 'Daughter-in-law'),
+]
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, null=False, blank=False)
+    father_name = models.CharField(max_length=255, null=False, blank=False)
+    family_relationship = models.CharField(max_length=20, choices=RELATIONSHIP_CHOICES, default=DEFAULT_FAMILY_RELATIONSHIP_CHOICE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="family")
+
+
 
