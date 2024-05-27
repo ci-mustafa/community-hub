@@ -104,7 +104,7 @@ class Family(models.Model):
     father_name = models.CharField(max_length=255, null=False, blank=False)
     family_relationship = models.CharField(max_length=20, choices=RELATIONSHIP_CHOICES, default=DEFAULT_FAMILY_RELATIONSHIP_CHOICE)
 
-    # One-to-many relationship with User
+    # many-to-one relationship with User
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="family")
 
 ###############
@@ -141,6 +141,25 @@ class Event(models.Model):
     # string representation
     def __str__(self):
         return self.title
+
+###########################
+# Group Participant Model #
+###########################
+class GroupParticipant(models.Model):
+    # Define group participant choices
+    LEADER = "L"
+    MEMBER = "M"
+    PARTICIPANT_TYPE_CHOICE = [
+        (LEADER, "Leader"),
+        (MEMBER, "Member")
+    ]
+    participant_type = models.CharField(max_length=1, choices=PARTICIPANT_TYPE_CHOICE, default=MEMBER)
+
+    # many-to-many relationship with Group
+    group = models.ManyToManyField(Group, related_name="group_participant")
+
+    # many-to-one ralationship with User
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="group_participant")
 
 
 
