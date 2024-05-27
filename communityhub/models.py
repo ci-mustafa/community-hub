@@ -105,5 +105,16 @@ class Family(models.Model):
     family_relationship = models.CharField(max_length=20, choices=RELATIONSHIP_CHOICES, default=DEFAULT_FAMILY_RELATIONSHIP_CHOICE)
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="family")
 
+###############
+# Group Model #
+###############
+class Group(models.Model):
+    title = models.CharField(max_length=255, null=False, blank=False)
+    description = models.TextField(null=True, blank=True)
+
+    # string representation
+    def __str__(self) -> str:
+        return self.title
+
 
 
