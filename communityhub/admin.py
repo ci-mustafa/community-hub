@@ -37,3 +37,18 @@ class FamilyAdmin(admin.ModelAdmin):
 
     # define a column name for related object
     get_user.short_description = "User"
+
+# Register group model to admin site
+@admin.register(models.Group)
+class GroupAdminO(admin.ModelAdmin):
+
+    # display custom fields in admin interface
+    list_display = ["title", "description"]
+
+
+# Register event model in admin site
+@admin.register(models.Event)
+class EventAdmin(admin.ModelAdmin):
+
+    # display custom fields in admin interface
+    list_display = ["title", "description", "event_type", "group"]
