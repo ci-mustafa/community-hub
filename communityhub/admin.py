@@ -1,6 +1,9 @@
 from django.contrib import admin
+from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.html import format_html
+from urllib.parse import urlencode
+from django.db.models import Count
 from . import models
 # Register our models for admin interface
 
@@ -9,18 +12,24 @@ from . import models
 class UserAdmin(admin.ModelAdmin):
 
     # display custom fields in admin interface
-    list_display = ["username", "first_name", "last_name", "email", "address", "phone_number", "get_family"]
+    list_display = ["username", "first_name", "last_name", "email", "address", "phone_number", "families_count"]
 
-    # create a custom method that generate a link to each family member
-    def get_family(self, obj: models.User):
-        links = []
-        for family in obj.family.all():
-            url = reverse("admin:communityhub_family_change", args=[family.id])
-            links.append(format_html('<a href="{}">{}</a>', url, family.first_name))
-        return format_html("  |  ".join(links))
+    # create a custom method that generate a link to user's family
+    def families_count(self, family: models.User):
+        url = (
+            reverse("admin:communityhub_family_changelist")
+            + "?"
+            + urlencode({
+                "family__id": str(family.id)
+            }))
+        return format_html("<a href='{}'>{}</a>", url, family.families_count)
 
-    # define a column name for related object
-    get_family.short_description = "Family Member"
+    # Overrides the default queryset to annotate each user instance with the count of associated families.
+    def get_queryset(self, request: HttpRequest):
+        return super().get_queryset(request).annotate(
+            families_count = Count("family")
+        )
+
 
 
 # Register family model to admin site
