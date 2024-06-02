@@ -132,7 +132,7 @@ class Event(models.Model):
     ]
     title = models.CharField(max_length=255, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
-    image = models.ImageField(upload_to="images/evnet", null=True, blank=True, validators=[validators.validate_file_size])
+    image = models.ImageField(upload_to="images/event", null=True, blank=True, validators=[validators.validate_file_size])
     event_type = models.CharField(max_length=7, choices=EVENT_TYPE_CHOICES, default=PUBLIC)
     event_date = models.DateField(null=True, blank=True)
     event_time = models.TimeField(null=True, blank=True)

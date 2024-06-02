@@ -51,4 +51,15 @@ class GroupAdminO(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 
     # display custom fields in admin interface
-    list_display = ["title", "description", "event_type", "group"]
+    list_display = ["title", "description", "event_type", "event_date", "event_time", "image", "get_group"]
+
+    # create a custom method that generate a link to the responsable group of the event
+    # if an event is private and needs a group to be responsable, it will generate a link to responsable group
+    def get_group(self, obj: models.Event):
+        if obj.group:
+            url = reverse("admin:communityhub_group_change", args=[obj.group.id])
+            return format_html('<a href="{}">{}</a>', url, obj.group.title)
+        return "No Group"
+
+    # define a column name for related object
+    get_group.short_description = "Responsable Group"
