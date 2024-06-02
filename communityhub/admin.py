@@ -18,10 +18,11 @@ class UserAdmin(admin.ModelAdmin):
     def families_count(self, family: models.User):
         url = (
             reverse("admin:communityhub_family_changelist")
-            + "?"
-            + urlencode({
+                + "?"
+                + urlencode({
                 "family__id": str(family.id)
-            }))
+                })
+            )
         return format_html("<a href='{}'>{}</a>", url, family.families_count)
 
     # Overrides the default queryset to annotate each user instance with the count of associated families.
@@ -41,7 +42,13 @@ class FamilyAdmin(admin.ModelAdmin):
 
     # create a custom method that generate a link to the user of each family
     def get_user(self, obj: models.Family):
-        url = reverse("admin:communityhub_user_change", args=[obj.user.id])
+        url = (
+            reverse("admin:communityhub_user_changelist")
+                + "?"
+                + urlencode({
+                "user__id": str(obj.user.id)
+                })
+            )
         return format_html('<a href="{}">{}</a>', url, obj.user.username)
 
     # define a column name for related object
