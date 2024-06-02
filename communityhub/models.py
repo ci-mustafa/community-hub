@@ -134,6 +134,9 @@ class Event(models.Model):
     description = models.TextField(null=False, blank=False)
     image = models.ImageField(upload_to="images/evnet", null=True, blank=True, validators=[validators.validate_file_size])
     event_type = models.CharField(max_length=7, choices=EVENT_TYPE_CHOICES, default=PUBLIC)
+    event_date = models.DateField(null=True, blank=True)
+    event_time = models.TimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # One-to-one relationship with Group
     group = models.OneToOneField(Group, on_delete=models.SET_NULL, null=True, blank=True, related_name="event")
