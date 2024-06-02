@@ -68,10 +68,26 @@ class EventAdmin(admin.ModelAdmin):
 # Resigter event participant model in admin site
 @admin.register(models.EventParticipant)
 class EventParticipantAdmin(admin.ModelAdmin):
+
+    # display custom fields in admin interface
     list_display = ["event", "user"]
 
 
 # Register group participant model in admin site
 @admin.register(models.GroupParticipant)
 class GroupParticipantAdmin(admin.ModelAdmin):
-    list_display = ["participant_type", "group", "user"]
+
+    # display custom fields in admin interface
+    list_display = ["participant_type", "get_group", "user"]
+
+    # Define a custom method to display groups as clickable links
+    def get_group(self, obj: models.GroupParticipant):
+        groups = obj.group.all()
+        links = []
+        for group in groups:
+            url = reverse("admin:communityhub_group_change", args=[group.id])
+            return format_html('<a href="{}">{}</a>', url, group.title)
+        return " | ".join(links)
+
+    # define a column name for related object
+    get_group.short_description = "Group Joined"
