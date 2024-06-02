@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 
+# Set admin site header
+admin.site.site_header = "Community Hub Administration"
+# Set admin area title
+admin.site.index_title = "Admin Dashboard"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__", include(debug_toolbar.urls))
