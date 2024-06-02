@@ -63,3 +63,15 @@ class EventAdmin(admin.ModelAdmin):
 
     # define a column name for related object
     get_group.short_description = "Responsable Group"
+
+
+# Resigter event participant model in admin site
+@admin.register(models.EventParticipant)
+class EventParticipantAdmin(admin.ModelAdmin):
+    list_display = ["event", "user"]
+
+
+# Register group participant model in admin site
+@admin.register(models.GroupParticipant)
+class GroupParticipantAdmin(admin.ModelAdmin):
+    list_display = ["participant_type", "group", "user"]
