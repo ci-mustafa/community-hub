@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Location</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+    // Retrieve latitude, longitude, and location name from the context data
+    var latitude = "{{ latitude }}";
+    var longitude = "{{ longitude }}";
+    var locationName = "{{ location_name }}";
+
+    // Initialize the map with default coordinates and zoom level
+    var map = L.map('map').setView([latitude, longitude], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // If latitude and longitude are provided, add a marker to the map
+    if (latitude && longitude) {
+        L.marker([latitude, longitude]).addTo(map).bindPopup(locationName);
+    }
+</script>
+
+</body>
+</html>

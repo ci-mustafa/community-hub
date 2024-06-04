@@ -24,5 +24,6 @@ admin.site.site_header = "Community Hub Administration"
 admin.site.index_title = "Admin Dashboard"
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("__debug__", include(debug_toolbar.urls))
+    path("__debug__", include(debug_toolbar.urls)),
+    path("communityhub/", include("communityhub.urls"))
 ]

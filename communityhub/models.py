@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import EmailValidator
-from location_field.models.plain import PlainLocationField # type: ignore
 from phonenumber_field.modelfields import PhoneNumberField # type: ignore
 from . import validators
 
@@ -137,7 +136,7 @@ class Event(models.Model):
     event_type = models.CharField(max_length=7, choices=EVENT_TYPE_CHOICES, default=PUBLIC)
     event_date = models.DateField(null=True, blank=True)
     event_time = models.TimeField(null=True, blank=True)
-    location = PlainLocationField( zoom=7, null=True, blank=True)
+    location_name = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     # One-to-one relationship with Group

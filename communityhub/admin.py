@@ -67,7 +67,7 @@ class GroupAdminO(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
 
     # display custom fields in admin interface
-    list_display = ["title", "description", "event_type", "event_date", "event_time", "image", "get_group", "location"]
+    list_display = ["title", "description", "event_type", "event_date", "event_time", "image", "get_group", "location_name"]
 
     # create a custom method that generate a link to the responsable group of the event
     # if an event is private and needs a group to be responsable, it will generate a link to responsable group
