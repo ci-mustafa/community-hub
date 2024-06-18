@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'location_field.apps.DefaultConfig',
+    'rest_framework',
     'debug_toolbar',
+    'djoser',
     'phonenumber_field',
     'communityhub',
 ]
@@ -141,6 +144,29 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuration for Django REST Framework
+REST_FRAMEWORK = {
+        # Define the default authentication classes
+        'DEFAULT_AUTHENTICATION_CLASSES' : (
+            # Use JWT (JSON Web Token) authentication provided by SimpleJWT
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ),
+}
+
+# Configuration for SimpleJWT
+SIMPLE_JWT = {
+    # Specify the type of authentication header expected
+    'AUTH_HEADER_TYPES': ('JWT',),
+    # Define access token life time
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'communityhub.serializers.UserCreateSerializer'
+    }
+}
 
 AUTH_USER_MODEL = 'communityhub.User'
 

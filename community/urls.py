@@ -25,5 +25,9 @@ admin.site.index_title = "Admin Dashboard"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__debug__", include(debug_toolbar.urls)),
+
+    # Registration and authentication urls
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
     path("communityhub/", include("communityhub.urls"))
 ]
