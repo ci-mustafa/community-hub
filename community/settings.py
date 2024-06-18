@@ -159,12 +159,13 @@ SIMPLE_JWT = {
     # Specify the type of authentication header expected
     'AUTH_HEADER_TYPES': ('JWT',),
     # Define access token life time
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
 }
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'communityhub.serializers.UserCreateSerializer'
+        'user_create': 'communityhub.serializers.UserCreateSerializer',
+        'current_user': 'communityhub.serializers.UserSerializer'
     }
 }
 
