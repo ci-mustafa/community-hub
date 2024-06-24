@@ -3,10 +3,12 @@ from geopy.geocoders import Nominatim # type: ignore
 from rest_framework.viewsets import ModelViewSet  # type: ignore
 from rest_framework.decorators import action # type: ignore
 from rest_framework.response import Response # type: ignore
+from rest_framework import status # type: ignore
 from . import serializers
 from . import models
 
 
+# Create events endpoints
 class EventViewSet(ModelViewSet):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
@@ -46,3 +48,24 @@ class EventViewSet(ModelViewSet):
 
         # Return the combined data as a JSON response
         return Response(event_data)
+
+
+# Create event participant endpoints
+class EventParticipantsViewSet(ModelViewSet):
+    serializer_class = serializers.EventParticipantsSerializer
+
+    def get_queryset(self):
+        event_id = self.kwargs.get('event_pk')
+        return models.EventParticipant.objects.filter(event_id=event_id)
+
+    def create(self, request):
+        event_id = self.kwargs.get('event_pk')
+        user_id = request.user.id
+        serializer_context = {
+            'event_id': event_id,
+            'user_id': user_id,
+        }
+        serializer = self.get_serializer(data=request.data, context=serializer_context)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

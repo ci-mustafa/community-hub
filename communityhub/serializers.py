@@ -1,13 +1,31 @@
 from djoser.serializers import UserSerializer as BaseUserSerializer, UserCreateSerializer as BaseUserCreateSerializer # type: ignore
 from rest_framework.serializers import ModelSerializer # type: ignore
+from rest_framework import serializers
 from . import models
 
 # Create events serializer
 class EventSerializer(ModelSerializer):
     class Meta:
         model = models.Event
-        fields = ["title", "description", "image", "event_type", "event_date", "event_time", "location_name", "group"]
+        fields = [
+            "title", "description", "image",
+            "event_type", "event_date", "event_time",
+            "location_name", "group"
+        ]
 
+# Create event participants serializer
+class EventParticipantsSerializer(ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = models.EventParticipant
+        fields = ["user"]
+
+    def create(self, validated_data):
+        event_id = self.context["event_id"]
+        user_id = self.context["user_id"]
+        return models.EventParticipant.objects.create(
+            event_id= event_id, user_id = user_id, **validated_data
+            )
 
 # Registration endpoint
 # Define a custom UserCreateSerializer that extends BaseUserCreateSerializer
