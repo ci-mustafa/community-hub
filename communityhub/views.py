@@ -69,3 +69,8 @@ class EventParticipantsViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# Create group endpoint
+class GroupViewSet(ModelViewSet):
+    queryset = models.Group.objects.all()
+    serializer_class = serializers.GroupSerializer

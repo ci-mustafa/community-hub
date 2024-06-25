@@ -1,6 +1,6 @@
 from djoser.serializers import UserSerializer as BaseUserSerializer, UserCreateSerializer as BaseUserCreateSerializer # type: ignore
 from rest_framework.serializers import ModelSerializer # type: ignore
-from rest_framework import serializers
+from rest_framework import serializers # type: ignore
 from . import models
 
 # Create events serializer
@@ -26,6 +26,12 @@ class EventParticipantsSerializer(ModelSerializer):
         return models.EventParticipant.objects.create(
             event_id= event_id, user_id = user_id, **validated_data
             )
+
+# Create groups serializer
+class GroupSerializer(ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ["title", "description"]
 
 # Registration endpoint
 # Define a custom UserCreateSerializer that extends BaseUserCreateSerializer
