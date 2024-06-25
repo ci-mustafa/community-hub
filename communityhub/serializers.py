@@ -33,6 +33,13 @@ class GroupSerializer(ModelSerializer):
         model = models.Group
         fields = ["title", "description"]
 
+# create group participant serialzier
+class GroupParticipantSerializer(ModelSerializer):
+    class Meta:
+        model = models.GroupParticipant
+        fields = ["participant_type", "user", "group"]
+
+
 # Registration endpoint
 # Define a custom UserCreateSerializer that extends BaseUserCreateSerializer
 class UserCreateSerializer(BaseUserCreateSerializer):

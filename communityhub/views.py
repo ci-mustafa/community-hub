@@ -74,3 +74,11 @@ class EventParticipantsViewSet(ModelViewSet):
 class GroupViewSet(ModelViewSet):
     queryset = models.Group.objects.all()
     serializer_class = serializers.GroupSerializer
+
+
+# create group participant endpoint
+class GroupParticipantVeiwSet(ModelViewSet):
+    queryset = models.GroupParticipant.objects.all()
+    serializer_class = serializers.GroupParticipantSerializer
+
+
