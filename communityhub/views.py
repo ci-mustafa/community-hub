@@ -82,3 +82,22 @@ class GroupParticipantVeiwSet(ModelViewSet):
     serializer_class = serializers.GroupParticipantSerializer
 
 
+# create family endpoint
+class FamilyViewSet(ModelViewSet):
+    serializer_class = serializers.FamilySerializer
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        return models.Family.objects.filter(user_id=user_id)
+
+    def create(self, request):
+        user_id = request.user.id
+        serializer_context = {
+            'user_id': user_id,
+        }
+        serializer = self.get_serializer(data=request.data, context=serializer_context)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+

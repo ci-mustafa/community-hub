@@ -159,8 +159,8 @@ class GroupParticipant(models.Model):
     ]
     participant_type = models.CharField(max_length=1, choices=PARTICIPANT_TYPE_CHOICE, default=MEMBER)
 
-    # many-to-many relationship with Group
-    group = models.ManyToManyField(Group, related_name="group_participant")
+    # many-to-one relationship with Group
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_participant")
     # many-to-one ralationship with User
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="group_participant")
 

@@ -39,6 +39,18 @@ class GroupParticipantSerializer(ModelSerializer):
         model = models.GroupParticipant
         fields = ["participant_type", "user", "group"]
 
+# create family serialzier
+class FamilySerializer(ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = models.Family
+        fields = ["first_name", "last_name", "father_name", "family_relationship", "user"]
+
+    def create(self, validated_data):
+        user_id = self.context["user_id"]
+        return models.Family.objects.create(
+            user_id = user_id, **validated_data
+            )
 
 # Registration endpoint
 # Define a custom UserCreateSerializer that extends BaseUserCreateSerializer
