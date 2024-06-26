@@ -3,6 +3,7 @@ from geopy.geocoders import Nominatim # type: ignore
 from rest_framework.viewsets import ModelViewSet  # type: ignore
 from rest_framework.decorators import action # type: ignore
 from rest_framework.response import Response # type: ignore
+from rest_framework.permissions import IsAuthenticated, IsAdminUser # type: ignore
 from rest_framework import status # type: ignore
 from . import serializers
 from . import models
@@ -13,6 +14,11 @@ class EventViewSet(ModelViewSet):
     queryset = models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
+    # Applying permissions
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [IsAuthenticated()]
+        return [IsAdminUser()]
     def retrieve(self, request, pk=None):
         # Retrieve the Event object based on the provided primary key (pk)
         event = get_object_or_404(models.Event, pk=pk)
