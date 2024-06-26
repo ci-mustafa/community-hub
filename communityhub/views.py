@@ -60,11 +60,17 @@ class EventViewSet(ModelViewSet):
 class EventParticipantsViewSet(ModelViewSet):
     serializer_class = serializers.EventParticipantsSerializer
 
+    # Applying permissions
+    def get_permissions(self):
+        if self.request.method in ["GET", "POST"]:
+            return [IsAuthenticated()]
+        return [IsAdminUser()]
+
     def get_queryset(self):
         event_id = self.kwargs.get('event_pk')
         return models.EventParticipant.objects.filter(event_id=event_id)
 
-    def create(self, request):
+    def create(self, request, **kwargs):
         event_id = self.kwargs.get('event_pk')
         user_id = request.user.id
         serializer_context = {
