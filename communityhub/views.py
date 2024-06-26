@@ -97,7 +97,7 @@ class GroupParticipantVeiwSet(ModelViewSet):
 # create family endpoint
 class FamilyViewSet(ModelViewSet):
     serializer_class = serializers.FamilySerializer
-
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         user_id = self.request.user.id
         return models.Family.objects.filter(user_id=user_id)
