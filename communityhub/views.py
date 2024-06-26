@@ -86,6 +86,8 @@ class EventParticipantsViewSet(ModelViewSet):
 class GroupViewSet(ModelViewSet):
     queryset = models.Group.objects.all()
     serializer_class = serializers.GroupSerializer
+    permission_classes = [IsAdminUser]
+
 
 
 # create group participant endpoint
